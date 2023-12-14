@@ -1,5 +1,7 @@
 package Tasks.T1.Banknote;
 
+import Tasks.T1.Exceptions.Banknote.InvalidSumToConvertIntoBanknotesException;
+
 public class Banknote {
 
     // количество купюр для номинала ONE
@@ -127,5 +129,59 @@ public void setTen(int ten) {
 
     public void setFiveHundred(int fiveHundred) {
         this.fiveHundred = fiveHundred;
+    }
+
+    public static Banknote convertSumToBanknotes(int sumToLoad) throws InvalidSumToConvertIntoBanknotesException {
+        // проверка переданной суммы на больше 0
+        if (sumToLoad <= 0) {
+            throw new InvalidSumToConvertIntoBanknotesException("Введена некорректная сумма для конвертации. Попробуйте еще раз.");
+        }
+
+        int fiveHundred = 0;
+        int twoHundred = 0;
+        int hundred = 0;
+        int fifty = 0;
+        int twenty = 0;
+        int ten = 0;
+        int five = 0;
+        int two = 0;
+        int one = 0;
+        while (sumToLoad >= 500) {
+            fiveHundred++;
+            sumToLoad -= 500;
+        }
+        while (sumToLoad >= 200) {
+            twoHundred++;
+            sumToLoad -= 200;
+        }
+        while (sumToLoad >= 100) {
+            hundred++;
+            sumToLoad -= 100;
+        }
+        while (sumToLoad >= 50) {
+            fifty++;
+            sumToLoad -= 50;
+        }
+        while (sumToLoad >= 20) {
+            twenty++;
+            sumToLoad -= 20;
+        }
+        while (sumToLoad >= 10) {
+            ten++;
+            sumToLoad -= 10;
+        }
+        while (sumToLoad >= 5) {
+            five++;
+            sumToLoad -= 5;
+        }
+        while (sumToLoad >= 2) {
+            two++;
+            sumToLoad -= 2;
+        }
+        while (sumToLoad >= 1) {
+            one++;
+            sumToLoad -= 1;
+        }
+        return new Banknote(one, two, five, ten, twenty, fifty, hundred, twoHundred, fiveHundred);
     }
 }

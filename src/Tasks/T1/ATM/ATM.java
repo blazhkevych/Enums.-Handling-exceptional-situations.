@@ -2,6 +2,7 @@ package Tasks.T1.ATM;
 
 import Tasks.T1.ATM.Sum.Sum;
 import Tasks.T1.Banknote.Banknote;
+import Tasks.T1.Exceptions.ATM.IncorrectAmountOfMoneyToIssueException;
 
 /**
  * Разработать класс АТМ банкомат.
@@ -85,7 +86,20 @@ public class ATM {
     }
 
 
-    public void withdrawMoney(int sum) {
+    public void withdrawMoney(int sum) throws IncorrectAmountOfMoneyToIssueException {
+        // если сумма больше минимальной суммы для выдачи то выдать ошибку
+        if (sum < this.minSum) {
+            throw new IncorrectAmountOfMoneyToIssueException("Введена сумма меньше минимальной суммы для выдачи. Попробуйте еще раз.");
+        }
+        // если сумма больше суммы денег в банкомате то выдать ошибку
+        if (sum > this.sum.getMoneySum()) {
+            throw new IncorrectAmountOfMoneyToIssueException("Введена сумма больше суммы денег в банкомате. Попробуйте еще раз.");
+        }
+        // если сумма больше максимального количества банкнот, которое может быть выдано через окошко выдачи наличности то выдать ошибку
+        if (sum > this.maxBanknotes * 500) {
+            throw new IncorrectAmountOfMoneyToIssueException("Введена сумма больше максимального количества банкнот, которое может быть выдано через окошко выдачи наличности. Попробуйте еще раз.");
+        }
+
         if (sum >= this.minSum && sum <= this.sum.getMoneySum() && sum <= this.maxBanknotes * 500) {
             int fiveHundred = 0;
             int twoHundred = 0;

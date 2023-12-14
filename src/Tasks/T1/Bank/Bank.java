@@ -2,6 +2,9 @@ package Tasks.T1.Bank;
 
 import Tasks.T1.ATM.ATM;
 import Tasks.T1.Banknote.Banknote;
+import Tasks.T1.Exceptions.ATM.IncorrectAmountOfMoneyToIssueException;
+import Tasks.T1.Exceptions.ATM.InvalidATMNumberException;
+import Tasks.T1.Exceptions.Bank.InvalidNumberOfATMsInBank;
 
 /**
  * Разработать класс банк, которому принадлежит сеть АТМ банкоматов (должно быть поле, определяющее количество банкоматов).
@@ -35,7 +38,7 @@ public class Bank {
         }
     }
 
-    //метод определения общей суммы денег в сети банкоматов
+    // метод определения общей суммы денег в сети банкоматов
     public int getTotalBankMoney() {
         int totalMoney = 0;
         for (ATM atm : atms) {
@@ -47,7 +50,12 @@ public class Bank {
     }
 
     // Распечатать полный отчет по всем банкоматам
-    public void printAllATMsReport() {
+    public void printAllATMsReport() throws InvalidNumberOfATMsInBank {
+        // Если количество банкоматов в банке равно 0, то вывести сообщение, что банкоматов нет
+        if (getCurrentATMsInBank() == 0) {
+            throw new InvalidNumberOfATMsInBank("В банке нет ни одного банкомата");
+        }
+
         for (int i = 0; i < ATM_COUNT; i++) {
             if (atms[i] != null) {
                 System.out.println("\nБанкомат № " + (i + 1) + ":");
@@ -56,9 +64,18 @@ public class Bank {
         }
     }
 
-    public void addATM(int amountOfAtm) {
+    public void addATM(int amountOfAtm) throws InvalidATMNumberException {
+        if (amountOfAtm > (ATM_COUNT - getCurrentATMsInBank())) {
+            throw new InvalidATMNumberException("Вы пытаетесь создать больше банкоматов, чем может поместится в Банк");
+        }
+        if (amountOfAtm < 1) {
+            throw new InvalidATMNumberException("Количество банкоматов должно быть больше 1");
+        }
         for (int i = 0; i < atms.length; i++) {
-            if (atms[i] == null && amountOfAtm > 0) {
+            if (amountOfAtm == 0) {
+                break;
+            }
+            if (atms[i] == null) {
                 atms[i] = new ATM();
                 amountOfAtm--;
             }
@@ -66,16 +83,21 @@ public class Bank {
     }
 
     // метод, который будет принимать номер банкомата, с которого хотим снять деньги
-    public void withdrawMoneyFromATM(int atmNumber, int sum) {
+    public void withdrawMoneyFromATM(int atmNumber, String sum) throws InvalidATMNumberException, IncorrectAmountOfMoneyToIssueException {
+        if (atmNumber < 1 || atmNumber > getCurrentATMsInBank()) {
+            throw new InvalidATMNumberException("Введен некорректный номер банкомата. Попробуйте еще раз.");
+        }
+        // проверка переданной суммы на больше 0 и введенному число является целым
+        if (!sum.matches("[0-9]+") || Integer.parseInt(sum) <= 0) {
+            throw new InvalidATMNumberException("Введена некорректная сумма. Попробуйте еще раз.");
+        }
         if (atms[atmNumber - 1] != null) {
-            atms[atmNumber - 1].withdrawMoney(sum);
-        } else {
-            System.out.println("Банкомата с таким номером не существует");
+            atms[atmNumber - 1].withdrawMoney(Integer.parseInt(sum));
         }
     }
 
     // метод, который будет возвращать текущее количество банкоматов в массиве
-    public int getATMCount() {
+    public int getCurrentATMsInBank() {
         // определяем количество банкоматов в массиве и возвращаем это значение
         int count = 0;
         for (ATM atm : atms) {
@@ -86,60 +108,16 @@ public class Bank {
         return count;
     }
 
+    // Возвращает максимальное количество банкоматов которое может вместить Банк.
+    public int getMaxNumberATMsCanBePlacedInBank() {
+        return ATM_COUNT;
+    }
+
     public void loadMoneyIntoATM(int atmNumberToLoad, Banknote banknote) {
         if (atms[atmNumberToLoad - 1] != null) {
             atms[atmNumberToLoad - 1].loadMoney(banknote);
         } else {
             System.out.println("Банкомата с таким номером не существует");
         }
-    }
-
-    public Banknote convertSumToBanknotes(int sumToLoad) {
-        int fiveHundred = 0;
-        int twoHundred = 0;
-        int hundred = 0;
-        int fifty = 0;
-        int twenty = 0;
-        int ten = 0;
-        int five = 0;
-        int two = 0;
-        int one = 0;
-        while (sumToLoad >= 500) {
-            fiveHundred++;
-            sumToLoad -= 500;
-        }
-        while (sumToLoad >= 200) {
-            twoHundred++;
-            sumToLoad -= 200;
-        }
-        while (sumToLoad >= 100) {
-            hundred++;
-            sumToLoad -= 100;
-        }
-        while (sumToLoad >= 50) {
-            fifty++;
-            sumToLoad -= 50;
-        }
-        while (sumToLoad >= 20) {
-            twenty++;
-            sumToLoad -= 20;
-        }
-        while (sumToLoad >= 10) {
-            ten++;
-            sumToLoad -= 10;
-        }
-        while (sumToLoad >= 5) {
-            five++;
-            sumToLoad -= 5;
-        }
-        while (sumToLoad >= 2) {
-            two++;
-            sumToLoad -= 2;
-        }
-        while (sumToLoad >= 1) {
-            one++;
-            sumToLoad -= 1;
-        }
-        return new Banknote(one, two, five, ten, twenty, fifty, hundred, twoHundred, fiveHundred);
     }
 }
