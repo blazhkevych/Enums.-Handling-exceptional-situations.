@@ -3,103 +3,113 @@ import Tasks.T1.Banknote.Banknote;
 
 import java.util.Scanner;
 
-
+/**
+ * This class contains a main method to test the Bank functionality.
+ */
 public class Main {
-    // метод для тестирования Банка
+
+    /**
+     * A method to test the Bank functionality.
+     */
     public static void testBank() {
         try {
-            // Создаем пустой банк
+            // Create an empty bank
             Bank bank = new Bank();
 
-            // ДОбавляем в банк 3 АТМ
+            // Add 3 ATMs to the bank
             bank.addATM(3);
 
-            // Загружаем в банкоматы деньги
+            // Load money into all ATMs
             bank.loadMoneyIntoAllATMs(new Banknote(1, 2, 3, 4, 5, 6, 7, 8, 9));
 
-            // Выводим отчет по всем банкоматам
+            // Print reports for all ATMs
             bank.printAllATMsReport();
 
-            // Выводим общую сумму денег в банке
-            System.out.println("\nОбщая сумма денег в банке: " + bank.getTotalBankMoney());
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // Введите номер банкомата, с которого хотите снять деньги
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            int atmNumber; // 3
-            // Получаем текущее количество банкоматов в банке
+            // Print the total amount of money in the bank
+            System.out.println("\nTotal amount of money in the bank: " + bank.getTotalBankMoney());
+
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Prompt user to enter the ATM number from which they want to withdraw money
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            int atmNumber;
             int currentATMsInBank = bank.getCurrentATMsInBank();
             do {
-                System.out.println("\nВведите номер банкомата, с которого хотите снять деньги: ");
+                System.out.println("\nEnter the ATM number from which you want to withdraw money: ");
                 Scanner sc = new Scanner(System.in);
                 atmNumber = sc.nextInt();
                 if (atmNumber < 1 || atmNumber > currentATMsInBank) {
-                    System.out.println("Введен некорректный номер банкомата. Попробуйте еще раз.");
+                    System.out.println("Invalid ATM number. Please try again.");
                 }
             } while (atmNumber < 1 || atmNumber > currentATMsInBank);
 
-            // пользователь вводит сумму до тех пор пока сумма не будет больше 0 и введенному число не будет целым
-            String sum; // 898
+            // Prompt user to enter the amount to withdraw until a valid amount is entered
+            String sum;
             do {
-                System.out.println("\nВведите сумму, которую хотите снять: ");
+                System.out.println("\nEnter the amount you want to withdraw: ");
                 Scanner sc = new Scanner(System.in);
                 sum = sc.nextLine();
                 if (sum.matches("[0-9]+") && Integer.parseInt(sum) > 0) {
                     break;
                 } else {
-                    System.out.println("Введена некорректная сумма. Попробуйте еще раз.");
+                    System.out.println("Invalid amount. Please try again.");
                 }
             } while (true);
 
-            // Снимаем деньги с выбранного банкомата
+            // Withdraw money from the selected ATM
             bank.withdrawMoneyFromATM(atmNumber, sum);
 
-            // Выводим отчет по всем банкоматам
+            // Print reports for all ATMs
             bank.printAllATMsReport();
 
-            // Выводим общую сумму денег в банке
-            System.out.println("\nОбщая сумма денег в банке после снятия наличных: " + bank.getTotalBankMoney());
+            // Print the total amount of money in the bank after withdrawal
+            System.out.println("\nTotal amount of money in the bank after withdrawal: " + bank.getTotalBankMoney());
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // Введите номер банкомата, в который хотите положить деньги
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            int atmNumberToLoad; // 3
-
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Prompt user to enter the ATM number to which they want to deposit money
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            int atmNumberToLoad;
             do {
-                System.out.println("\nВведите номер банкомата, в который хотите положить деньги: ");
+                System.out.println("\nEnter the ATM number to which you want to deposit money: ");
                 Scanner sc = new Scanner(System.in);
                 atmNumberToLoad = sc.nextInt();
                 if (atmNumberToLoad < 1 || atmNumberToLoad > bank.getCurrentATMsInBank()) {
-                    System.out.println("Введен некорректный номер банкомата. Попробуйте еще раз.");
+                    System.out.println("Invalid ATM number. Please try again.");
                 }
             } while (atmNumberToLoad < 1 || atmNumberToLoad > bank.getCurrentATMsInBank());
 
-            // Введите сумму, которую хотите положить в выбранный банкомат
-            int sumToLoad; // 100
+            // Prompt user to enter the amount to deposit until a valid amount is entered
+            int sumToLoad;
             do {
-                System.out.println("\nВведите сумму, которую хотите положить в выбранный банкомат: ");
+                System.out.println("\nEnter the amount you want to deposit into the selected ATM: ");
                 Scanner sc = new Scanner(System.in);
                 sumToLoad = sc.nextInt();
                 if (sumToLoad < 0) {
-                    System.out.println("Введена некорректная сумма. Попробуйте еще раз.");
+                    System.out.println("Invalid amount. Please try again.");
                 }
             } while (sumToLoad < 0);
 
-            // Метод преобразовывает интовое значение в банкноты
+            // Convert the amount to banknotes
             Banknote banknoteToLoad = Banknote.convertSumToBanknotes(sumToLoad);
 
-            // Ложим деньги в выбранный банкомат
+            // Load money into the selected ATM
             bank.loadMoneyIntoATM(atmNumberToLoad, banknoteToLoad);
 
-            // Выводим отчет по всем банкоматам
+            // Print reports for all ATMs
             bank.printAllATMsReport();
 
-            // Выводим общую сумму денег в банке
-            System.out.println("\nОбщая сумма денег в банке после пополнения: " + bank.getTotalBankMoney());
+            // Print the total amount of money in the bank after deposit
+            System.out.println("\nTotal amount of money in the bank after deposit: " + bank.getTotalBankMoney());
         } catch (Exception e) {
-            System.out.println("Ошибка: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 
+    /**
+     * The main method to execute the Bank testing.
+     *
+     * @param args Command-line arguments (not used).
+     */
     public static void main(String[] args) {
         testBank();
     }

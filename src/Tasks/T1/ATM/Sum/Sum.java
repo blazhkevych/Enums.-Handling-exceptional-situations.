@@ -1,39 +1,53 @@
 package Tasks.T1.ATM.Sum;
 
-// Класс определяющий сумму денег в банкомате состоянием на сейчас
+/**
+ * The Sum class defines the amount of money in the ATM at a given moment.
+ */
 public class Sum {
 
-    // сумма купюр номиналом 1 гривна
+    // Sum of 1 hryvnia banknotes
     private int oneSum;
 
-    // сумма купюр номиналом 2 гривны
+    // Sum of 2 hryvnias banknotes
     private int twoSum;
 
-    // сумма купюр номиналом 5 гривен
+    // Sum of 5 hryvnias banknotes
     private int fiveSum;
 
-    // сумма купюр номиналом 10 гривен
+    // Sum of 10 hryvnias banknotes
     private int tenSum;
 
-    // сумма купюр номиналом 20 гривен
+    // Sum of 20 hryvnias banknotes
     private int twentySum;
 
-    // сумма купюр номиналом 50 гривен
+    // Sum of 50 hryvnias banknotes
     private int fiftySum;
 
-    // сумма купюр номиналом 100 гривен
+    // Sum of 100 hryvnias banknotes
     private int hundredSum;
 
-    // сумма купюр номиналом 200 гривен
+    // Sum of 200 hryvnias banknotes
     private int twoHundredSum;
 
-    // сумма купюр номиналом 500 гривен
+    // Sum of 500 hryvnias banknotes
     private int fiveHundredSum;
 
-    // общая сумма денег в банкомате
+    // Total amount of money in the ATM
     private int moneySum;
 
-    // конструктор с параметрами
+    /**
+     * Parameterized constructor to initialize the Sum object with specific quantities of banknotes.
+     *
+     * @param oneQuantity         Quantity of 1 hryvnia banknotes
+     * @param twoQuantity         Quantity of 2 hryvnias banknotes
+     * @param fiveQuantity        Quantity of 5 hryvnias banknotes
+     * @param tenQuantity         Quantity of 10 hryvnias banknotes
+     * @param twentyQuantity      Quantity of 20 hryvnias banknotes
+     * @param fiftyQuantity       Quantity of 50 hryvnias banknotes
+     * @param hundredQuantity     Quantity of 100 hryvnias banknotes
+     * @param twoHundredQuantity  Quantity of 200 hryvnias banknotes
+     * @param fiveHundredQuantity Quantity of 500 hryvnias banknotes
+     */
     public Sum(int oneQuantity, int twoQuantity, int fiveQuantity, int tenQuantity, int twentyQuantity,
                int fiftyQuantity, int hundredQuantity, int twoHundredQuantity, int fiveHundredQuantity) {
         this.oneSum = 1 * oneQuantity;
@@ -49,7 +63,9 @@ public class Sum {
                 this.hundredSum + this.twoHundredSum + this.fiveHundredSum;
     }
 
-    // конструктор по умолчанию
+    /**
+     * Default constructor to initialize the Sum object with zero quantities.
+     */
     public Sum() {
         this.oneSum = 0;
         this.twoSum = 0;
@@ -63,84 +79,186 @@ public class Sum {
         this.moneySum = 0;
     }
 
-    // геттеры
+    // Getters
+
+    /**
+     * Gets the sum of 1 hryvnia banknotes.
+     *
+     * @return The sum of 1 hryvnia banknotes.
+     */
     public int getOneSum() {
         return oneSum;
     }
 
+    /**
+     * Gets the sum of 2 hryvnias banknotes.
+     *
+     * @return The sum of 2 hryvnias banknotes.
+     */
     public int getTwoSum() {
         return twoSum;
     }
 
+    /**
+     * Gets the sum of 5 hryvnias banknotes.
+     *
+     * @return The sum of 5 hryvnias banknotes.
+     */
     public int getFiveSum() {
         return fiveSum;
     }
 
+    /**
+     * Gets the sum of 10 hryvnias banknotes.
+     *
+     * @return The sum of 10 hryvnias banknotes.
+     */
     public int getTenSum() {
         return tenSum;
     }
 
+    /**
+     * Gets the sum of 20 hryvnias banknotes.
+     *
+     * @return The sum of 20 hryvnias banknotes.
+     */
     public int getTwentySum() {
         return twentySum;
     }
 
+    /**
+     * Gets the sum of 50 hryvnias banknotes.
+     *
+     * @return The sum of 50 hryvnias banknotes.
+     */
     public int getFiftySum() {
         return fiftySum;
     }
 
+    /**
+     * Gets the sum of 100 hryvnias banknotes.
+     *
+     * @return The sum of 100 hryvnias banknotes.
+     */
     public int getHundredSum() {
         return hundredSum;
     }
 
+    /**
+     * Gets the sum of 200 hryvnias banknotes.
+     *
+     * @return The sum of 200 hryvnias banknotes.
+     */
     public int getTwoHundredSum() {
         return twoHundredSum;
     }
 
+    /**
+     * Gets the sum of 500 hryvnias banknotes.
+     *
+     * @return The sum of 500 hryvnias banknotes.
+     */
     public int getFiveHundredSum() {
         return fiveHundredSum;
     }
 
+    /**
+     * Gets the total amount of money in the ATM.
+     *
+     * @return The total amount of money in the ATM.
+     */
     public int getMoneySum() {
         return moneySum;
     }
 
-    // сеттеры
+    // Setters
+
+    /**
+     * Sets the sum of 1 hryvnia banknotes.
+     *
+     * @param oneSum The sum of 1 hryvnia banknotes to set.
+     */
     public void setOneSum(int oneSum) {
         this.oneSum = oneSum;
     }
 
+    /**
+     * Sets the sum of 2 hryvnias banknotes.
+     *
+     * @param twoSum The sum of 2 hryvnias banknotes to set.
+     */
     public void setTwoSum(int twoSum) {
         this.twoSum = twoSum;
     }
 
+    /**
+     * Sets the sum of 5 hryvnias banknotes.
+     *
+     * @param fiveSum The sum of 5 hryvnias banknotes to set.
+     */
     public void setFiveSum(int fiveSum) {
         this.fiveSum = fiveSum;
     }
 
+    /**
+     * Sets the sum of 10 hryvnias banknotes.
+     *
+     * @param tenSum The sum of 10 hryvnias banknotes to set.
+     */
     public void setTenSum(int tenSum) {
         this.tenSum = tenSum;
     }
 
+    /**
+     * Sets the sum of 20 hryvnias banknotes.
+     *
+     * @param twentySum The sum of 20 hryvnias banknotes to set.
+     */
     public void setTwentySum(int twentySum) {
         this.twentySum = twentySum;
     }
 
+    /**
+     * Sets the sum of 50 hryvnias banknotes.
+     *
+     * @param fiftySum The sum of 50 hryvnias banknotes to set.
+     */
     public void setFiftySum(int fiftySum) {
         this.fiftySum = fiftySum;
     }
 
+    /**
+     * Sets the sum of 100 hryvnias banknotes.
+     *
+     * @param hundredSum The sum of 100 hryvnias banknotes to set.
+     */
     public void setHundredSum(int hundredSum) {
         this.hundredSum = hundredSum;
     }
 
+    /**
+     * Sets the sum of 200 hryvnias banknotes.
+     *
+     * @param twoHundredSum The sum of 200 hryvnias banknotes to set.
+     */
     public void setTwoHundredSum(int twoHundredSum) {
         this.twoHundredSum = twoHundredSum;
     }
 
+    /**
+     * Sets the sum of 500 hryvnias banknotes.
+     *
+     * @param fiveHundredSum The sum of 500 hryvnias banknotes to set.
+     */
     public void setFiveHundredSum(int fiveHundredSum) {
         this.fiveHundredSum = fiveHundredSum;
     }
 
+    /**
+     * Sets the total amount of money in the ATM.
+     *
+     * @param moneySum The total amount of money in the ATM to set.
+     */
     public void setMoneySum(int moneySum) {
         this.moneySum = moneySum;
     }

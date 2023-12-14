@@ -5,52 +5,49 @@ import Tasks.T1.Banknote.Banknote;
 import Tasks.T1.Exceptions.ATM.IncorrectAmountOfMoneyToIssueException;
 
 /**
- * Разработать класс АТМ банкомат.
- * Сумма, которая сейчас есть в наличии в банкомате должна быть подана определенными номиналами банкнот (1, 2, 5, 10, 20, 50, 100, 200, 500 гривен).
- * Для каждого номинала банкнот определено количество купюр данного номинала.
- * Кроме этого банкомат хранит в своих полях минимальную для выдачи сумму,
- * а также максимальное количество банкнот, которое может быть выдано через окошко выдачи наличности.
- * Реализовать метод инициализации банкомата (загрузка денег в банкомат),
- * метод ручного ввода какой-то суммы через купюро приемник,
- * метод снятия денег в банкомате.
- * При определении номиналов банкнот при выдаче исходим из минимизации их количества.
+ * The ATM class represents an Automated Teller Machine that manages the available cash, banknotes, and various operations.
  */
-
-// Класс АТМ банкомат
 public class ATM {
-    // сумма, которая сейчас есть в наличии в банкомате
+    // The current sum of money available in the ATM
     private Sum sum;
 
-    // банкноты в банкомате
+    // The banknotes in the ATM
     private Banknote banknotes;
 
-    // минимальная сумма для выдачи
+    // The minimum sum required for cash withdrawal
     private int minSum;
 
-    // максимальное количество банкнот, которое может быть выдано через окошко выдачи наличности
+    // The maximum number of banknotes that can be dispensed through the cash withdrawal window
     private int maxBanknotes;
 
-    // Местоположение банкомата
+    // The location of the ATM
     private String location;
 
-    // пустой конструктор для создания пустого банкомата.
+    // Default constructor to create an empty ATM
     public ATM() {
         this.banknotes = new Banknote();
         this.sum = new Sum();
         this.minSum = 100;
         this.maxBanknotes = 30;
-        this.location = "Улица ";
+        this.location = "Street ";
     }
 
-    // конструктор с параметрами
+    // Parameterized constructor to initialize the ATM with specific parameters
     public ATM(Banknote banknotes, int minSum, int maxBanknotes, String location) {
         this.banknotes = banknotes;
-        this.sum = new Sum(banknotes.getOne(), banknotes.getTwo(), banknotes.getFive(), banknotes.getTen(), banknotes.getTwenty(), banknotes.getFifty(), banknotes.getHundred(), banknotes.getTwoHundred(), banknotes.getFiveHundred());
+        this.sum = new Sum(banknotes.getOne(), banknotes.getTwo(), banknotes.getFive(), banknotes.getTen(),
+                banknotes.getTwenty(), banknotes.getFifty(), banknotes.getHundred(), banknotes.getTwoHundred(),
+                banknotes.getFiveHundred());
         this.minSum = minSum;
         this.maxBanknotes = maxBanknotes;
         this.location = location;
     }
 
+    /**
+     * Load money into the ATM by updating the banknotes quantity.
+     *
+     * @param money The banknotes to be loaded into the ATM.
+     */
     public void loadMoney(Banknote money) {
         this.banknotes.setOne(this.banknotes.getOne() + money.getOne());
         this.banknotes.setTwo(this.banknotes.getTwo() + money.getTwo());
@@ -61,46 +58,62 @@ public class ATM {
         this.banknotes.setHundred(this.banknotes.getHundred() + money.getHundred());
         this.banknotes.setTwoHundred(this.banknotes.getTwoHundred() + money.getTwoHundred());
         this.banknotes.setFiveHundred(this.banknotes.getFiveHundred() + money.getFiveHundred());
-        this.sum = new Sum(this.banknotes.getOne(), this.banknotes.getTwo(), this.banknotes.getFive(), this.banknotes.getTen(), this.banknotes.getTwenty(), this.banknotes.getFifty(), this.banknotes.getHundred(), this.banknotes.getTwoHundred(), this.banknotes.getFiveHundred());
+        this.sum = new Sum(this.banknotes.getOne(), this.banknotes.getTwo(), this.banknotes.getFive(),
+                this.banknotes.getTen(), this.banknotes.getTwenty(), this.banknotes.getFifty(),
+                this.banknotes.getHundred(), this.banknotes.getTwoHundred(), this.banknotes.getFiveHundred());
     }
 
-    // Получить общую сумму денег в банке
+    /**
+     * Get the total sum of money in the ATM.
+     *
+     * @return The total sum of money in the ATM.
+     */
     public int getATMMoney() {
         return this.sum.getMoneySum();
     }
 
-    // Распечатать сумму денег в банкомате в виде таблицы с количеством купюр каждого номинала и адресом банкомата
+    /**
+     * Print a report of the money in the ATM, including the quantity of banknotes for each denomination and the ATM's location.
+     *
+     * @param i An identifier for the ATM.
+     */
     public void printATMReport(int i) {
-        System.out.println("Адрес банкомата: " + this.location + " " + i);
-        System.out.println("Сумма денег в банкомате: " + this.sum.getMoneySum() + " грн.");
-        System.out.println("Количество купюр каждого номинала:");
-        System.out.println("1 грн. - " + this.banknotes.getOne() + " шт.");
-        System.out.println("2 грн. - " + this.banknotes.getTwo() + " шт.");
-        System.out.println("5 грн. - " + this.banknotes.getFive() + " шт.");
-        System.out.println("10 грн. - " + this.banknotes.getTen() + " шт.");
-        System.out.println("20 грн. - " + this.banknotes.getTwenty() + " шт.");
-        System.out.println("50 грн. - " + this.banknotes.getFifty() + " шт.");
-        System.out.println("100 грн. - " + this.banknotes.getHundred() + " шт.");
-        System.out.println("200 грн. - " + this.banknotes.getTwoHundred() + " шт.");
-        System.out.println("500 грн. - " + this.banknotes.getFiveHundred() + " шт.");
+        System.out.println("ATM Location: " + this.location + " " + i);
+        System.out.println("Sum of money in the ATM: " + this.sum.getMoneySum() + " UAH");
+        System.out.println("Quantity of banknotes for each denomination:");
+        System.out.println("1 UAH - " + this.banknotes.getOne() + " bills");
+        System.out.println("2 UAH - " + this.banknotes.getTwo() + " bills");
+        System.out.println("5 UAH - " + this.banknotes.getFive() + " bills");
+        System.out.println("10 UAH - " + this.banknotes.getTen() + " bills");
+        System.out.println("20 UAH - " + this.banknotes.getTwenty() + " bills");
+        System.out.println("50 UAH - " + this.banknotes.getFifty() + " bills");
+        System.out.println("100 UAH - " + this.banknotes.getHundred() + " bills");
+        System.out.println("200 UAH - " + this.banknotes.getTwoHundred() + " bills");
+        System.out.println("500 UAH - " + this.banknotes.getFiveHundred() + " bills");
     }
 
-
+    /**
+     * Withdraw money from the ATM.
+     *
+     * @param sum The amount of money to withdraw.
+     * @throws IncorrectAmountOfMoneyToIssueException If the withdrawal amount is incorrect or cannot be processed.
+     */
     public void withdrawMoney(int sum) throws IncorrectAmountOfMoneyToIssueException {
-        // если сумма больше минимальной суммы для выдачи то выдать ошибку
+        // If the sum is less than the minimum withdrawal amount, throw an exception
         if (sum < this.minSum) {
-            throw new IncorrectAmountOfMoneyToIssueException("Введена сумма меньше минимальной суммы для выдачи. Попробуйте еще раз.");
+            throw new IncorrectAmountOfMoneyToIssueException("The entered amount is less than the minimum withdrawal amount. Please try again.");
         }
-        // если сумма больше суммы денег в банкомате то выдать ошибку
+        // If the sum is greater than the total sum of money in the ATM, throw an exception
         if (sum > this.sum.getMoneySum()) {
-            throw new IncorrectAmountOfMoneyToIssueException("Введена сумма больше суммы денег в банкомате. Попробуйте еще раз.");
+            throw new IncorrectAmountOfMoneyToIssueException("The entered amount is greater than the total sum of money in the ATM. Please try again.");
         }
-        // если сумма больше максимального количества банкнот, которое может быть выдано через окошко выдачи наличности то выдать ошибку
+        // If the sum is greater than the maximum number of banknotes that can be dispensed, throw an exception
         if (sum > this.maxBanknotes * 500) {
-            throw new IncorrectAmountOfMoneyToIssueException("Введена сумма больше максимального количества банкнот, которое может быть выдано через окошко выдачи наличности. Попробуйте еще раз.");
+            throw new IncorrectAmountOfMoneyToIssueException("The entered amount is greater than the maximum number of banknotes that can be dispensed. Please try again.");
         }
 
         if (sum >= this.minSum && sum <= this.sum.getMoneySum() && sum <= this.maxBanknotes * 500) {
+            // Variables to store the quantity of each denomination
             int fiveHundred = 0;
             int twoHundred = 0;
             int hundred = 0;
@@ -111,6 +124,8 @@ public class ATM {
             int two = 0;
             int one = 0;
             int sumCopy = sum;
+
+            // Calculate the quantity of each denomination required to fulfill the withdrawal
             while (sumCopy >= 500 && this.banknotes.getFiveHundred() > 0) {
                 sumCopy -= 500;
                 fiveHundred++;
@@ -147,6 +162,8 @@ public class ATM {
                 sumCopy -= 1;
                 one++;
             }
+
+            // If the withdrawal amount can be fulfilled, update the banknotes quantity and display the withdrawal details
             if (sumCopy == 0) {
                 this.banknotes.setFiveHundred(this.banknotes.getFiveHundred() - fiveHundred);
                 this.banknotes.setTwoHundred(this.banknotes.getTwoHundred() - twoHundred);
@@ -157,22 +174,23 @@ public class ATM {
                 this.banknotes.setFive(this.banknotes.getFive() - five);
                 this.banknotes.setTwo(this.banknotes.getTwo() - two);
                 this.banknotes.setOne(this.banknotes.getOne() - one);
-                this.sum = new Sum(this.banknotes.getOne(), this.banknotes.getTwo(), this.banknotes.getFive(), this.banknotes.getTen(), this.banknotes.getTwenty(), this.banknotes.getFifty(), this.banknotes.getHundred(), this.banknotes.getTwoHundred(), this.banknotes.getFiveHundred());
-                System.out.println("Выдано " + fiveHundred + " купюр номиналом 500 грн.");
-                System.out.println("Выдано " + twoHundred + " купюр номиналом 200 грн.");
-                System.out.println("Выдано " + hundred + " купюр номиналом 100 грн.");
-                System.out.println("Выдано " + fifty + " купюр номиналом 50 грн.");
-                System.out.println("Выдано " + twenty + " купюр номиналом 20 грн.");
-                System.out.println("Выдано " + ten + " купюр номиналом 10 грн.");
-                System.out.println("Выдано " + five + " купюр номиналом 5 грн.");
-                System.out.println("Выдано " + two + " купюр номиналом 2 грн.");
-                System.out.println("Выдано " + one + " купюр номиналом 1 грн.");
+                this.sum = new Sum(this.banknotes.getOne(), this.banknotes.getTwo(), this.banknotes.getFive(),
+                        this.banknotes.getTen(), this.banknotes.getTwenty(), this.banknotes.getFifty(),
+                        this.banknotes.getHundred(), this.banknotes.getTwoHundred(), this.banknotes.getFiveHundred());
+                System.out.println("Dispensed " + fiveHundred + " bills of 500 UAH.");
+                System.out.println("Dispensed " + twoHundred + " bills of 200 UAH.");
+                System.out.println("Dispensed " + hundred + " bills of 100 UAH.");
+                System.out.println("Dispensed " + fifty + " bills of 50 UAH.");
+                System.out.println("Dispensed " + twenty + " bills of 20 UAH.");
+                System.out.println("Dispensed " + ten + " bills of 10 UAH.");
+                System.out.println("Dispensed " + five + " bills of 5 UAH.");
+                System.out.println("Dispensed " + two + " bills of 2 UAH.");
+                System.out.println("Dispensed " + one + " bills of 1 UAH.");
             } else {
-                System.out.println("В банкомате недостаточно купюр для выдачи данной суммы.");
+                System.out.println("There are not enough bills in the ATM to fulfill this withdrawal amount.");
             }
         } else {
-            System.out.println("Введена некорректная сумма. Попробуйте еще раз.");
+            System.out.println("The entered amount is incorrect. Please try again.");
         }
     }
 }
-

@@ -7,29 +7,25 @@ import Tasks.T1.Exceptions.ATM.InvalidATMNumberException;
 import Tasks.T1.Exceptions.Bank.InvalidNumberOfATMsInBank;
 
 /**
- * Разработать класс банк, которому принадлежит сеть АТМ банкоматов (должно быть поле, определяющее количество банкоматов).
- * Определить операции инициализации сети банкоматов, то есть создание банкоматов и загрузки туда определенной суммы денег.
- * Разработать метод определения общей суммы денег, которая находится в сети банкоматов.
- * <p>
- * - константное поле для хранения количества банкоматов в сети;
- * - поле для хранения массива банкоматов;
- * - метод создания банкоматов для архива (конструктор класса БАНК);
- * - метод загрузки денег в каждый банкомат из массива банкоматов
- * - метод определения общей суммы денег в сети банкоматов.
+ * The Bank class represents a bank that owns a network of ATMs.
+ * It includes operations for initializing the ATM network, creating ATMs, loading money into ATMs, and determining the total amount of money in the ATM network.
  */
-
 public class Bank {
-    // количество банкоматов в сети
+    // The constant field to store the number of ATMs in the network
     private final int ATM_COUNT = 10;
-    // массив банкоматов
+    // The array to store ATMs
     private ATM[] atms;
 
-    // конструктор класса БАНК
+    // Constructor for the Bank class
     public Bank() {
         atms = new ATM[ATM_COUNT];
     }
 
-    // метод загрузки денег в каждый банкомат из массива банкоматов
+    /**
+     * Load money into each ATM in the array.
+     *
+     * @param money The banknotes to be loaded into each ATM.
+     */
     public void loadMoneyIntoAllATMs(Banknote money) {
         for (ATM atm : atms) {
             if (atm != null) {
@@ -38,7 +34,11 @@ public class Bank {
         }
     }
 
-    // метод определения общей суммы денег в сети банкоматов
+    /**
+     * Get the total amount of money in the ATM network.
+     *
+     * @return The total amount of money in the ATM network.
+     */
     public int getTotalBankMoney() {
         int totalMoney = 0;
         for (ATM atm : atms) {
@@ -49,27 +49,37 @@ public class Bank {
         return totalMoney;
     }
 
-    // Распечатать полный отчет по всем банкоматам
+    /**
+     * Print a full report for all ATMs in the bank.
+     *
+     * @throws InvalidNumberOfATMsInBank If there are no ATMs in the bank.
+     */
     public void printAllATMsReport() throws InvalidNumberOfATMsInBank {
-        // Если количество банкоматов в банке равно 0, то вывести сообщение, что банкоматов нет
+        // If the number of ATMs in the bank is 0, throw an exception
         if (getCurrentATMsInBank() == 0) {
-            throw new InvalidNumberOfATMsInBank("В банке нет ни одного банкомата");
+            throw new InvalidNumberOfATMsInBank("There are no ATMs in the bank");
         }
 
         for (int i = 0; i < ATM_COUNT; i++) {
             if (atms[i] != null) {
-                System.out.println("\nБанкомат № " + (i + 1) + ":");
+                System.out.println("\nATM Number " + (i + 1) + ":");
                 atms[i].printATMReport(i);
             }
         }
     }
 
+    /**
+     * Add a specified number of ATMs to the bank.
+     *
+     * @param amountOfAtm The number of ATMs to add.
+     * @throws InvalidATMNumberException If the number of ATMs to add is invalid.
+     */
     public void addATM(int amountOfAtm) throws InvalidATMNumberException {
         if (amountOfAtm > (ATM_COUNT - getCurrentATMsInBank())) {
-            throw new InvalidATMNumberException("Вы пытаетесь создать больше банкоматов, чем может поместится в Банк");
+            throw new InvalidATMNumberException("Attempting to create more ATMs than the bank can accommodate");
         }
         if (amountOfAtm < 1) {
-            throw new InvalidATMNumberException("Количество банкоматов должно быть больше 1");
+            throw new InvalidATMNumberException("The number of ATMs should be greater than 1");
         }
         for (int i = 0; i < atms.length; i++) {
             if (amountOfAtm == 0) {
@@ -82,23 +92,33 @@ public class Bank {
         }
     }
 
-    // метод, который будет принимать номер банкомата, с которого хотим снять деньги
+    /**
+     * Withdraw money from a specific ATM in the bank.
+     *
+     * @param atmNumber The number of the ATM from which to withdraw money.
+     * @param sum       The amount of money to withdraw.
+     * @throws InvalidATMNumberException              If the ATM number is invalid.
+     * @throws IncorrectAmountOfMoneyToIssueException If the withdrawal amount is incorrect.
+     */
     public void withdrawMoneyFromATM(int atmNumber, String sum) throws InvalidATMNumberException, IncorrectAmountOfMoneyToIssueException {
         if (atmNumber < 1 || atmNumber > getCurrentATMsInBank()) {
-            throw new InvalidATMNumberException("Введен некорректный номер банкомата. Попробуйте еще раз.");
+            throw new InvalidATMNumberException("Invalid ATM number. Please try again.");
         }
-        // проверка переданной суммы на больше 0 и введенному число является целым
+        // Check if the entered sum is a positive integer
         if (!sum.matches("[0-9]+") || Integer.parseInt(sum) <= 0) {
-            throw new InvalidATMNumberException("Введена некорректная сумма. Попробуйте еще раз.");
+            throw new InvalidATMNumberException("Invalid sum entered. Please try again.");
         }
         if (atms[atmNumber - 1] != null) {
             atms[atmNumber - 1].withdrawMoney(Integer.parseInt(sum));
         }
     }
 
-    // метод, который будет возвращать текущее количество банкоматов в массиве
+    /**
+     * Get the current number of ATMs in the bank.
+     *
+     * @return The current number of ATMs in the bank.
+     */
     public int getCurrentATMsInBank() {
-        // определяем количество банкоматов в массиве и возвращаем это значение
         int count = 0;
         for (ATM atm : atms) {
             if (atm != null) {
@@ -108,16 +128,26 @@ public class Bank {
         return count;
     }
 
-    // Возвращает максимальное количество банкоматов которое может вместить Банк.
+    /**
+     * Get the maximum number of ATMs that can be placed in the bank.
+     *
+     * @return The maximum number of ATMs that can be placed in the bank.
+     */
     public int getMaxNumberATMsCanBePlacedInBank() {
         return ATM_COUNT;
     }
 
+    /**
+     * Load money into a specific ATM in the bank.
+     *
+     * @param atmNumberToLoad The number of the ATM to load money into.
+     * @param banknote        The banknotes to load into the ATM.
+     */
     public void loadMoneyIntoATM(int atmNumberToLoad, Banknote banknote) {
         if (atms[atmNumberToLoad - 1] != null) {
             atms[atmNumberToLoad - 1].loadMoney(banknote);
         } else {
-            System.out.println("Банкомата с таким номером не существует");
+            System.out.println("The ATM with this number does not exist");
         }
     }
 }

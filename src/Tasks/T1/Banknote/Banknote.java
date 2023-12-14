@@ -2,36 +2,39 @@ package Tasks.T1.Banknote;
 
 import Tasks.T1.Exceptions.Banknote.InvalidSumToConvertIntoBanknotesException;
 
+/**
+ * The Banknote class represents a set of banknotes with different denominations.
+ */
 public class Banknote {
 
-    // количество купюр для номинала ONE
+    // The number of banknotes for the ONE denomination
     private int one;
 
-    // количество купюр для номинала TWO
+    // The number of banknotes for the TWO denomination
     private int two;
 
-    // количество купюр для номинала FIVE
+    // The number of banknotes for the FIVE denomination
     private int five;
 
-    // количество купюр для номинала TEN
+    // The number of banknotes for the TEN denomination
     private int ten;
 
-    // количество купюр для номинала TWENTY
+    // The number of banknotes for the TWENTY denomination
     private int twenty;
 
-    // количество купюр для номинала FIFTY
+    // The number of banknotes for the FIFTY denomination
     private int fifty;
 
-    // количество купюр для номинала HUNDRED
+    // The number of banknotes for the HUNDRED denomination
     private int hundred;
 
-    // количество купюр для номинала TWO_HUNDRED
+    // The number of banknotes for the TWO_HUNDRED denomination
     private int twoHundred;
 
-    // количество купюр для номинала FIVE_HUNDRED
+    // The number of banknotes for the FIVE_HUNDRED denomination
     private int fiveHundred;
 
-    // конструктор по умолчанию
+    // Default constructor
     public Banknote() {
         this.one = 0;
         this.two = 0;
@@ -44,7 +47,19 @@ public class Banknote {
         this.fiveHundred = 0;
     }
 
-    // конструктор с параметрами
+    /**
+     * Parameterized constructor to initialize the banknotes with specific quantities.
+     *
+     * @param one         The number of ONE denomination banknotes.
+     * @param two         The number of TWO denomination banknotes.
+     * @param five        The number of FIVE denomination banknotes.
+     * @param ten         The number of TEN denomination banknotes.
+     * @param twenty      The number of TWENTY denomination banknotes.
+     * @param fifty       The number of FIFTY denomination banknotes.
+     * @param hundred     The number of HUNDRED denomination banknotes.
+     * @param twoHundred  The number of TWO_HUNDRED denomination banknotes.
+     * @param fiveHundred The number of FIVE_HUNDRED denomination banknotes.
+     */
     public Banknote(int one, int two, int five, int ten, int twenty, int fifty, int hundred, int twoHundred, int fiveHundred) {
         this.one += one;
         this.two += two;
@@ -57,7 +72,7 @@ public class Banknote {
         this.fiveHundred += fiveHundred;
     }
 
-    // геттеры
+    // Getters
     public int getOne() {
         return one;
     }
@@ -94,7 +109,7 @@ public class Banknote {
         return fiveHundred;
     }
 
-    // сеттеры
+    // Setters
     public void setOne(int one) {
         this.one = one;
     }
@@ -107,7 +122,7 @@ public class Banknote {
         this.five = five;
     }
 
-public void setTen(int ten) {
+    public void setTen(int ten) {
         this.ten = ten;
     }
 
@@ -131,10 +146,17 @@ public void setTen(int ten) {
         this.fiveHundred = fiveHundred;
     }
 
+    /**
+     * Convert a specified sum into a set of banknotes.
+     *
+     * @param sumToLoad The sum to convert into banknotes.
+     * @return A Banknote object representing the banknotes for the specified sum.
+     * @throws InvalidSumToConvertIntoBanknotesException If the sum to convert is invalid.
+     */
     public static Banknote convertSumToBanknotes(int sumToLoad) throws InvalidSumToConvertIntoBanknotesException {
-        // проверка переданной суммы на больше 0
+        // Check if the sum to convert is greater than 0
         if (sumToLoad <= 0) {
-            throw new InvalidSumToConvertIntoBanknotesException("Введена некорректная сумма для конвертации. Попробуйте еще раз.");
+            throw new InvalidSumToConvertIntoBanknotesException("Invalid sum for conversion. Please try again.");
         }
 
         int fiveHundred = 0;
